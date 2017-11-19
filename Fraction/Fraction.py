@@ -86,15 +86,18 @@ class Fraction:
         new_self, new_other = make_common_den(self, other)
         new_num = new_self.num + new_other.num
         new_fraction = Fraction(new_num, new_self.den)
+        new_fraction.reducing()
         return new_fraction
 
     def __mul__(self, other):
 
         """overloads the multiplication operator"""
 
-        new_num = self.num * other.num
-        new_den = self.den * other.den
+        other_fraction = Fraction(other)
+        new_num = self.num * other_fraction.num
+        new_den = self.den * other_fraction.den
         new_fraction = Fraction(new_num, new_den)
+        new_fraction.reducing()
         return new_fraction
 
     def __str__(self):
@@ -103,7 +106,7 @@ class Fraction:
         if denominator equals 1 then output without denominator and slash"""
 
         if self.den == 1:
-            out = self.num
+            out = str(self.num)
         else:
             out = '{}/{}'.format(self.num, self.den)
         return out
