@@ -13,9 +13,14 @@ def find_nod(n, d):
 class Fraction:
 
     def __init__(self, a=1, b=1):
-        self.num = int(a)
-        self.den = int(b)
-        # добавить исключения
+        if a is int:
+            self.num = a
+        else:
+            raise TypeError('numerator is not int')
+        if b is int:
+            self.den = b
+        else:
+            raise TypeError('denominator is not int')
 
     @staticmethod
     def make_common_den(first, second):
@@ -38,11 +43,12 @@ class Fraction:
     def compare(self, other):
         new_self, new_other = self.make_common_den(self, other)
         if new_self.num > new_other.num:
-            print('{} > {}'.format(self, other))
+            s = ">"
         if new_self.num == new_other.num:
-            print('{} = {}'.format(self, other))
+            s = "="
         if new_self.num < new_other.num:
-            print('{} < {}'.format(self, other))
+            s = "<"
+        print('{} {} {}'.format(self, s, other))
 
     def __add__(self, other):
         new_self, new_other = self.make_common_den(self, other)
