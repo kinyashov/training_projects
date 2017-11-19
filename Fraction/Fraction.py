@@ -60,7 +60,7 @@ class Fraction:
                 if type(a) is int:
                     self.num = a
                 else:
-                    raise TypeError('numerator is not int')
+                    raise TypeError('numerator is not int or float')
                 if type(b) is int:
                     if b < 0:
                         self.den = -b
@@ -89,9 +89,9 @@ class Fraction:
         new_self, new_other = make_common_den(self, other)
         if new_self.num > new_other.num:
             sign = ">"
-        if new_self.num == new_other.num:
+        elif new_self.num == new_other.num:
             sign = "="
-        if new_self.num < new_other.num:
+        else:
             sign = "<"
         print('{} {} {}'.format(self, sign, other))
 
