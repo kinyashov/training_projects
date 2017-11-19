@@ -15,7 +15,7 @@ def find_nod(n, d):
 
 def make_common_den(first, second):
 
-    """make new two fractions with a common denominator"""
+    """make new two fractions with the same denominator"""
 
     common_nod = find_nod(first.den, second.den)
     second_multi = first.den / common_nod
@@ -33,26 +33,42 @@ class Fraction:
 
     def __init__(self, a=1, b=1):
 
-        """initialize a two variables: num (numerator) and den (denominator);
-        if denominator have a negative value then minus is assigned to the numerator;
-        if numerator or denominator are empty then they equal to 1;
-        numerator and denominator can't be zero
-        accept only int;
+        """Initialize a two variables: num (numerator) and den (denominator).
+        If denominator have a negative value then a minus is assigned to the numerator.
+        If numerator or denominator are empty then they equal to 1.
+        Numerator and denominator can't be zero.
+
+        The first argument can be float (in addition to integer),
+        then it will be convert to fraction,
+        and the second argument will be ignored.
+
+        The second argument can be only integer.
         """
 
         if a != 0 and b != 0:
-            if type(a) is int:
-                self.num = a
+            if type(a) is float:
+
+                # convert float to fraction
+                a = str(a)
+                i = a.find('.')
+                to_point = int(a[:i])
+                after_point = int(a[i + 1:])
+                self.den = 10 ** len(str(after_point))
+                self.num = after_point + self.den * to_point
+                self.reducing()
             else:
-                raise TypeError('numerator is not int')
-            if type(b) is int:
-                if b < 0:
-                    self.den = -b
-                    self.num = -self.num
+                if type(a) is int:
+                    self.num = a
                 else:
-                    self.den = b
-            else:
-                raise TypeError('denominator is not int')
+                    raise TypeError('numerator is not int')
+                if type(b) is int:
+                    if b < 0:
+                        self.den = -b
+                        self.num = -self.num
+                    else:
+                        self.den = b
+                else:
+                    raise TypeError('denominator is not int')
         else:
             raise ZeroDivisionError
 
@@ -81,9 +97,12 @@ class Fraction:
 
     def __add__(self, other):
 
-        """overloads the addition operator"""
+        """It is allowed to multiply integers.
+        At the end of the fraction is reduced
+        """
 
-        new_self, new_other = make_common_den(self, other)
+        other_fraction = Fraction(other)
+        new_self, new_other = make_common_den(self, other_fraction)
         new_num = new_self.num + new_other.num
         new_fraction = Fraction(new_num, new_self.den)
         new_fraction.reducing()
@@ -91,7 +110,9 @@ class Fraction:
 
     def __mul__(self, other):
 
-        """overloads the multiplication operator"""
+        """It is allowed to multiply integers.
+        At the end of the fraction is reduced
+        """
 
         other_fraction = Fraction(other)
         new_num = self.num * other_fraction.num
