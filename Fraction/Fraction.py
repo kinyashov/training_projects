@@ -62,6 +62,9 @@ class Fraction:
                 else:
                     raise TypeError('numerator is not int or float')
                 if type(b) is int:
+
+                    # transfer minus to numerator
+                    # if denominator less then zero
                     if b < 0:
                         self.den = -b
                         self.num = -self.num
@@ -86,6 +89,8 @@ class Fraction:
 
         """displays two fractions with sign comparison between them"""
 
+        if not isinstance(other, Fraction):
+            other = Fraction(other)
         new_self, new_other = make_common_den(self, other)
         if new_self.num > new_other.num:
             sign = ">"
@@ -101,8 +106,9 @@ class Fraction:
         At the end of the fraction is reduced
         """
 
-        other_fraction = Fraction(other)
-        new_self, new_other = make_common_den(self, other_fraction)
+        if not isinstance(other, Fraction):
+            other = Fraction(other)
+        new_self, new_other = make_common_den(self, other)
         new_num = new_self.num + new_other.num
         new_fraction = Fraction(new_num, new_self.den)
         new_fraction.reducing()
@@ -114,9 +120,10 @@ class Fraction:
         At the end of the fraction is reduced
         """
 
-        other_fraction = Fraction(other)
-        new_num = self.num * other_fraction.num
-        new_den = self.den * other_fraction.den
+        if not isinstance(other, Fraction):
+            other = Fraction(other)
+        new_num = self.num * other.num
+        new_den = self.den * other.den
         new_fraction = Fraction(new_num, new_den)
         new_fraction.reducing()
         return new_fraction
