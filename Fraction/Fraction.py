@@ -17,6 +17,8 @@ def make_common_den(first, second):
 
     """make new two fractions with the same denominator"""
 
+    if not isinstance(second, Fraction):
+        second = Fraction(second)
     common_nod = find_nod(first.den, second.den)
     second_multi = first.den / common_nod
     first_multi = second.den / common_nod
@@ -36,7 +38,7 @@ class Fraction:
         """Initialize a two variables: num (numerator) and den (denominator).
         If denominator have a negative value then a minus is assigned to the numerator.
         If numerator or denominator are empty then they equal to 1.
-        Numerator and denominator can't be zero.
+        Denominator can't be zero.
 
         The first argument can be float (in addition to integer),
         then it will be convert to fraction,
@@ -45,23 +47,21 @@ class Fraction:
         The second argument can be only integer.
         """
 
-        if a != 0 and b != 0:
-            if type(a) is float:
+        if b != 0:
+            if isinstance(a, float):
 
                 # convert float to fraction
                 a = str(a)
-                i = a.find('.')
-                to_point = int(a[:i])
-                after_point = int(a[i + 1:])
-                self.den = 10 ** len(str(after_point))
-                self.num = after_point + self.den * to_point
+                to_point, after_point = a.split('.')
+                self.den = 10 ** len(after_point)
+                self.num = int(after_point) + self.den * int(to_point)
                 self.reducing()
             else:
-                if type(a) is int:
+                if isinstance(a, int):
                     self.num = a
                 else:
                     raise TypeError('numerator is not int or float')
-                if type(b) is int:
+                if isinstance(b, int):
 
                     # transfer minus to numerator
                     # if denominator less then zero
@@ -73,7 +73,7 @@ class Fraction:
                 else:
                     raise TypeError('denominator is not int')
         else:
-            raise ZeroDivisionError
+            raise ZeroDivisionError('denominator or numerator cannot be zero')
 
     def reducing(self):
 
@@ -89,8 +89,6 @@ class Fraction:
 
         """displays two fractions with sign comparison between them"""
 
-        if not isinstance(other, Fraction):
-            other = Fraction(other)
         new_self, new_other = make_common_den(self, other)
         if new_self.num > new_other.num:
             sign = ">"
@@ -100,14 +98,54 @@ class Fraction:
             sign = "<"
         print('{} {} {}'.format(self, sign, other))
 
+    def __lt__(self, other):
+        new_self, new_other = make_common_den(self, other)
+        if new_self.num < new_other.num:
+            return True
+        else:
+            return False
+
+    def __le__(self, other):
+        new_self, new_other = make_common_den(self, other)
+        if new_self.num <= new_other.num:
+            return True
+        else:
+            return False
+
+    def __eq__(self, other):
+        new_self, new_other = make_common_den(self, other)
+        if new_self.num == new_other.num:
+            return True
+        else:
+            return False
+
+    def __ne__(self, other):
+        new_self, new_other = make_common_den(self, other)
+        if new_self.num != new_other.num:
+            return True
+        else:
+            return False
+
+    def __gt__(self, other):
+        new_self, new_other = make_common_den(self, other)
+        if new_self.num > new_other.num:
+            return True
+        else:
+            return False
+
+    def __ge__(self, other):
+        new_self, new_other = make_common_den(self, other)
+        if new_self.num >= new_other.num:
+            return True
+        else:
+            return False
+
     def __add__(self, other):
 
-        """It is allowed to multiply integers.
+        """It is allowed to add integers.
         At the end of the fraction is reduced
         """
 
-        if not isinstance(other, Fraction):
-            other = Fraction(other)
         new_self, new_other = make_common_den(self, other)
         new_num = new_self.num + new_other.num
         new_fraction = Fraction(new_num, new_self.den)
