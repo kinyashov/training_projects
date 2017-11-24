@@ -100,45 +100,27 @@ class Fraction:
 
     def __lt__(self, other):
         new_self, new_other = make_common_den(self, other)
-        if new_self.num < new_other.num:
-            return True
-        else:
-            return False
+        return new_self.num < new_other.num
 
     def __le__(self, other):
         new_self, new_other = make_common_den(self, other)
-        if new_self.num <= new_other.num:
-            return True
-        else:
-            return False
+        return new_self.num <= new_other.num
 
     def __eq__(self, other):
         new_self, new_other = make_common_den(self, other)
-        if new_self.num == new_other.num:
-            return True
-        else:
-            return False
+        return new_self.num == new_other.num
 
     def __ne__(self, other):
         new_self, new_other = make_common_den(self, other)
-        if new_self.num != new_other.num:
-            return True
-        else:
-            return False
+        return new_self.num != new_other.num
 
     def __gt__(self, other):
         new_self, new_other = make_common_den(self, other)
-        if new_self.num > new_other.num:
-            return True
-        else:
-            return False
+        return new_self.num > new_other.num
 
     def __ge__(self, other):
         new_self, new_other = make_common_den(self, other)
-        if new_self.num >= new_other.num:
-            return True
-        else:
-            return False
+        return new_self.num >= new_other.num
 
     def __add__(self, other):
 
