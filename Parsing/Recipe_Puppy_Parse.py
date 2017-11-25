@@ -15,5 +15,3 @@ if i != '':
         print(' '.join(result['title'].split()))
 else:
     print('Not entered ingredients')
-
-
