@@ -10,11 +10,9 @@ except FileNotFoundError:
 
 leagues = [445, 450, 452, 455, 456]
 headers = {'X-Auth-Token': token, 'X-Response-Control': 'minified'}
-
 for league in leagues:
     url = 'http://api.football-data.org/v1/competitions/{}/leagueTable'.format(league)
     req = urllib.request.Request(url, headers=headers)
-
     with urllib.request.urlopen(req) as url:
         data = url.read().decode()
     data = json.loads(data)
