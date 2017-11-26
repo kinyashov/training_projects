@@ -1,9 +1,19 @@
-import http.client
+import urllib.request
 import json
 
-connection = http.client.HTTPConnection('api.football-data.org')
+leagues = [445, 450, 452, 455, 456]
 headers = {'X-Auth-Token': '', 'X-Response-Control': 'minified'}
-connection.request('GET', '/v1/competitions', None, headers)
-response = json.loads(connection.getresponse().read().decode())
+for league in leagues:
+    url = 'http://api.football-data.org/v1/competitions/{}/leagueTable'.format(league)
+    req = urllib.request.Request(url, headers=headers)
 
-print(response)
+    with urllib.request.urlopen(req) as url:
+        data = url.read().decode()
+    data = json.loads(data)
+    teams = sorted(data['standing'], key=lambda x: x['goals'], reverse=True)
+
+    print('\n', data['leagueCaption'])
+    print('Pos', 'Team'.ljust(14), 'Goals')
+    for pos, row in enumerate(teams, 1):
+        if pos < 6:
+            print('{}.  {}{}'.format(pos, row['team'].ljust(15), row['goals']))
