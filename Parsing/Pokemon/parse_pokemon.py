@@ -1,7 +1,11 @@
 import urllib.request
 import json
 
-pokename = input('Pokemon: ')
+try:
+    with open('pokename_for_test', 'r') as test_file:
+        pokename = test_file.readline()
+except FileNotFoundError:
+    pokename = input('Pokemon: ')
 
 # not working without headers and proxies
 proxies = {'https': '51.15.202.250:3128'}
@@ -26,12 +30,15 @@ try:
         else:
             abilities.append(ab['ability']['name'])
 
-    print('id: {}'.format(response['id']),
-          '\nheight: {}'.format(response['height']),
-          '\nweight: {}'.format(response['weight']),
-          '\nbase experience: {}'.format(response['base_experience']),
-          '\nabilities: {}'.format(', '.join(abilities)),
-          '\nhidden abilities: {}'.format(', '.join(hidden_abilities)))
+    with open('output', 'w') as output_file:
+        print('pokemon: {}'.format(pokename),
+              '\nid: {}'.format(response['id']),
+              '\nheight: {}'.format(response['height']),
+              '\nweight: {}'.format(response['weight']),
+              '\nbase experience: {}'.format(response['base_experience']),
+              '\nabilities: {}'.format(', '.join(abilities)),
+              '\nhidden abilities: {}'.format(', '.join(hidden_abilities)),
+              file=output_file)
 
 except urllib.error.HTTPError:
     print('Pokemon not found')
