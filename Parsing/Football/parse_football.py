@@ -1,9 +1,8 @@
 import urllib.request
 import json
 
-file = 'api_token'
 try:
-    with open(file, 'r') as api_token:
+    with open('api_token', 'r') as api_token:
         token = api_token.readline()
 except FileNotFoundError:
     token = ''
@@ -20,8 +19,9 @@ with open('output', 'w') as output_file:
         data = json.loads(data)
         teams = sorted(data['standing'], key=lambda x: x['goals'], reverse=True)
 
-        print('\n{}'.format(data['leagueCaption']), file=output_file)
-        print('{:<4}{:<15}{}'.format('Pos', 'Team', 'Goals'), file=output_file)
+        print('\n{}\n{:<4}{:<15}{}'.format(data['leagueCaption'], 'Pos', 'Team', 'Goals'),
+              file=output_file)
         for pos, row in enumerate(teams, 1):
             if pos < 6:
-                print('{:<4}{:<15}{}'.format(pos, row['team'], row['goals']), file=output_file)
+                print('{:<4}{:<15}{}'.format(str(pos) + '.', row['team'], row['goals']),
+                      file=output_file)
