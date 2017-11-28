@@ -1,6 +1,7 @@
 import urllib.request
 import json
 
+
 try:
     with open('api_token', 'r') as api_token:
         token = api_token.readline()
@@ -19,9 +20,10 @@ with open('output', 'w') as output_file:
         data = json.loads(data)
         teams = sorted(data['standing'], key=lambda x: x['goals'], reverse=True)
 
+        count_team = 5  # number of team in request
         print('\n{}\n{:<4}{:<15}{}'.format(data['leagueCaption'], 'Pos', 'Team', 'Goals'),
               file=output_file)
         for pos, row in enumerate(teams, 1):
-            if pos < 6:
+            if pos <= count_team:
                 print('{:<4}{:<15}{}'.format(str(pos) + '.', row['team'], row['goals']),
                       file=output_file)
