@@ -19,7 +19,7 @@ parser.add_argument('-t', '--top',
                     choices=['post', 'hub', 'author'],
                     help='show top post, hub or author')
 
-# optional flag for make limit, default limit = 3
+# optional flag for make limit in response, default limit = 10
 parser.add_argument('-l', '--limit',
                     type=int,
                     default=10,
@@ -33,6 +33,7 @@ parser.add_argument('-u', '--update',
                     help='update database from habrahabr to N page, e.g.: -u 10')
 
 # optional flag for filter response by hub
+# can specify only one hub
 parser.add_argument('-hub',
                     nargs='*',
                     type=str,
@@ -89,6 +90,8 @@ elif args.after is not None or args.before is not None:
 with psycopg2.connect("dbname=habradata") as conn:
     with conn.cursor() as cur:
         if args.top == 'author':
+            # top of authors
+            # can fix date interval and limit
             cur.execute("""
                         SELECT author, 
                         COUNT(author) as c
@@ -103,6 +106,8 @@ with psycopg2.connect("dbname=habradata") as conn:
             for result in results:
                 print(*result)
         elif args.top == 'hub':
+            # top of hub
+            # can fix date interval and limit
             cur.execute("""
                         SELECT hub, 
                         COUNT(hub) as c
@@ -120,6 +125,9 @@ with psycopg2.connect("dbname=habradata") as conn:
             for result in results:
                 print(*result)
         elif args.top == 'post':
+            # top of post
+            # can fix date interval and limit
+            # (may be later added filter by hub)
             cur.execute("""
                         SELECT title
                         FROM habrapost
@@ -132,10 +140,12 @@ with psycopg2.connect("dbname=habradata") as conn:
                 print(*result)
 
         if args.update is not None:
+            # only for update database and that is all
             utyls.updater.update_base(args.update)
             print('database is updated')
 
         if args.hub is not None:
+            # shows title filtering by one hub
             cur.execute("""
                         SELECT title
                         FROM habrapost
