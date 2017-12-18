@@ -3,7 +3,6 @@ from html.parser import HTMLParser
 import timeformat
 import psycopg2
 
-
 is_author = False
 is_id = False
 is_date = False
@@ -14,24 +13,23 @@ dict_hub_table = {}
 
 
 def update_base():
-
     with psycopg2.connect("dbname=habradata") as conn:
         with conn.cursor() as cur:
             cur.execute("""
-                    CREATE TABLE IF NOT EXISTS habrapost (
-                    id text PRIMARY KEY,
-                    author text NOT NULL,
-                    time timestamp NOT NULL,
-                    title text NOT NULL
-                    );
-                    """)
+                        CREATE TABLE IF NOT EXISTS habrapost (
+                        id text PRIMARY KEY,
+                        author text NOT NULL,
+                        time timestamp NOT NULL,
+                        title text NOT NULL
+                        );
+                        """)
             cur.execute("""
-                    CREATE TABLE IF NOT EXISTS habrahub (
-                    index serial PRIMARY KEY,
-                    id text NOT NULL,
-                    hub text NOT NULL
-                    );
-                    """)
+                        CREATE TABLE IF NOT EXISTS habrahub (
+                        index serial PRIMARY KEY,
+                        id text NOT NULL,
+                        hub text NOT NULL
+                        );
+                        """)
 
             class MyHTMLParser(HTMLParser):
 
@@ -76,24 +74,26 @@ def update_base():
                         dict_title_table['title'] = data
                         is_title = False
                         cur.execute("""
-                                INSERT INTO habrapost (id, author, time, title) 
-                                VALUES (%s, %s, %s, %s)
-                                ON CONFLICT (id) DO NOTHING;
-                                """,
+                                    INSERT INTO habrapost (id, author, time, title) 
+                                    VALUES (%s, %s, %s, %s)
+                                    ON CONFLICT (id) DO NOTHING;
+                                    """,
                                     (dict_title_table['id'],
                                      dict_title_table['author'],
                                      dict_title_table['date'],
-                                     dict_title_table['title']))
+                                     dict_title_table['title'])
+                                    )
                         conn.commit()
                     if is_hub is True:
                         dict_hub_table['hub'] = data
                         is_hub = False
                         cur.execute("""
-                                INSERT INTO habrahub (hub, id) 
-                                VALUES (%s, %s);
-                                """,
+                                    INSERT INTO habrahub (hub, id) 
+                                    VALUES (%s, %s);
+                                    """,
                                     (dict_hub_table['hub'],
-                                     dict_hub_table['id']))
+                                     dict_hub_table['id'])
+                                    )
                         conn.commit()
 
             http = urllib3.PoolManager()
