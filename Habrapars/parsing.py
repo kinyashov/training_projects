@@ -17,7 +17,18 @@ dict_title_table = {}
 dict_hub_table = {}
 
 
-def update_base(page=12):
+def update_base(page=10):
+
+    """Create or update tables in the habradata.
+    Table habrapost stores id, author, datetime and title.
+    Id in this table is unique value.
+    Table habrahub links hub and id.
+    Combination of this column is unique, but separately may be repeated.
+
+    :param page: how many page will be parsed
+    :return: update database and that is all
+    """
+
     with psycopg2.connect("dbname=habradata") as conn:
         with conn.cursor() as cur:
             # two tables to simplify SELECT
@@ -26,15 +37,14 @@ def update_base(page=12):
                         id text PRIMARY KEY,
                         author text NOT NULL,
                         time timestamp NOT NULL,
-                        title text NOT NULL
-                        );
+                        title text NOT NULL);
                         """)
             cur.execute("""
                         CREATE TABLE IF NOT EXISTS habrahub (
                         index serial PRIMARY KEY,
                         id text NOT NULL,
-                        hub text NOT NULL
-                        );
+                        hub text NOT NULL,
+                        UNIQUE (id, hub));
                         """)
 
             class MyHTMLParser(HTMLParser):
@@ -106,7 +116,7 @@ def update_base(page=12):
                         conn.commit()
 
             http = urllib3.PoolManager()
-            for i in range(1, page):
+            for i in range(1, page + 1):
                 r = http.request('GET', 'https://habrahabr.ru/top/monthly/page{}/'.format(i))
                 res = r.data.decode('utf-8')
                 parser = MyHTMLParser()
