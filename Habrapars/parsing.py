@@ -108,7 +108,8 @@ def update_base(page=10):
                         # tuple completed for INSERT INTO habrahub
                         cur.execute("""
                                     INSERT INTO habrahub (hub, id) 
-                                    VALUES (%s, %s);
+                                    VALUES (%s, %s)
+                                    ON CONFLICT (hub, id) DO NOTHING;
                                     """,
                                     (dict_hub_table['hub'],
                                      dict_hub_table['id'])
