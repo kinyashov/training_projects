@@ -14,7 +14,8 @@ parser.add_argument('string', type=str, nargs='*',
                     help="""'top post' - popular post from week;
                          'top hub' - top 10 popular hub in habradata;
                          'top author' - top 10 productive author;
-                         <name of hub> [-a|--after YYYY-MM-DD] [-b|--before YYYY-MM-DD]
+                         'update [10]' - update database from habrahabr to N page (default=10);
+                         <name of hub keeping the register> [-a|--after YYYY-MM-DD] [-b|--before YYYY-MM-DD]
                          """)
 parser.add_argument('-a', '--after',
                     type=valid_date,
