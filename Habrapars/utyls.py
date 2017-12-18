@@ -4,6 +4,14 @@ from datetime import datetime
 
 
 def habratime_isotime(date):
+
+    """Highly specialized function for converts date such 'N месяц HH:MM'
+    which used in habrahabra site.
+
+    :param date: takes only 'N месяц HH:MM' format
+    :return: datetime format for SQL and Python
+    """
+
     month_names = ['янв', 'фев', 'мар', 'апр', 'май', 'июн', 'июл', 'авг', 'сен', 'окт', 'ноя', 'дек']
     year = datetime.today().year
 
@@ -26,8 +34,3 @@ def habratime_isotime(date):
     day, hour, minute = map(lambda x: int(x), [day, hour, minute])
     t = datetime(year, month, day, hour=hour, minute=minute, second=0)
     return t
-
-
-def valid_date(dt):
-    new_dt = datetime.strptime(dt, "%Y-%m-%d")
-    return new_dt
