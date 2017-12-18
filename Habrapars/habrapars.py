@@ -6,6 +6,7 @@ import psycopg2
 import parsing
 
 
+# for checking datetime arguments
 valid_date = lambda dt: datetime.strptime(dt, "%Y-%m-%d")
 
 parser = argparse.ArgumentParser(description='list of title by hub')
@@ -23,7 +24,6 @@ parser.add_argument('-b', '--before',
                     type=valid_date,
                     default=datetime.today(),
                     help='ending datetime')
-
 args = parser.parse_args()
 
 with psycopg2.connect("dbname=habradata") as conn:
