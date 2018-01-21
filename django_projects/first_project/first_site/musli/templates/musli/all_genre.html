@@ -1,0 +1,11 @@
+{% extends 'musli/base.html' %}
+
+{% block content %}
+
+<h2>ЖАНРЫ</h2>
+
+{% for genre in genres %}
+<a href="{% url 'genre' genre.slug %}">{{ genre }}</a><br>
+{% endfor %}
+
+{% endblock %}

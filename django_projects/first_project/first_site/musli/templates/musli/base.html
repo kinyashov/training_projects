@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>[mus]ic [li]brary</title>
+</head>
+<body>
+    <header>
+        <div id="header">
+            <div>
+                <h1><a href="{% url 'index' %}">[mus]ic [li]brary</a></h1>
+            </div>
+        </div></header>
+    <div>
+    {% block content %}
+    {% endblock %}
+    </div>
+</body>
+</html>

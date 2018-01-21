@@ -1,0 +1,11 @@
+{% extends 'musli/base.html' %}
+
+{% block content %}
+
+<h2>ИСПОЛНИТЕЛИ</h2>
+
+{% for performer in list_of_performers %}
+<a href="{% url 'performer' performer.slug %}">{{ performer }}</a><br>
+{% endfor %}
+
+{% endblock %}

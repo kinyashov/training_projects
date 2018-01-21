@@ -1,0 +1,26 @@
+{% extends 'musli/base.html' %}
+
+{% block content %}
+
+<h2>{{ genre }}</h2>
+
+<h3>Исполнители</h3>
+{% for performer in performers %}
+<a href="{% url 'performer' performer.slug %}">{{ performer }}</a><br>
+{% endfor %}
+
+<h3>Альбомы</h3>
+{% for album in albums %}
+<p>
+    <a href="{% url 'album' album.slug %}">{{ album.title }}</a><br>
+    {{ album.performer }}
+    {# сделать потом ссылку #}
+</p>
+{% endfor %}
+
+<h3>Треки</h3>
+{% for track in tracks %}
+{{ track }}<br>
+{% endfor %}
+
+{% endblock %}
