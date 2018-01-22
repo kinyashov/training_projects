@@ -53,8 +53,6 @@ def genre(request, slug_genre):
 def all_album(request):
     list_of_albums = Album.objects.all()
     context = {'list_of_albums': list_of_albums}
-    for album in list_of_albums:
-        album.performer_slug = 'they-might-be-giants'
     return render(request, 'musli/all_album.html', context=context)
 
 
