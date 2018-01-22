@@ -1,5 +1,4 @@
 from django.shortcuts import render
-import urllib
 
 from .models import Track, Performer, Album, Genre
 
