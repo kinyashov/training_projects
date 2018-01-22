@@ -8,8 +8,7 @@
         <a href="{% url 'album' album.slug %}">{{ album.title }}</a>
     </p>
     <p>
-        {{ album.performer }}
-        {# здесь потом оформить ссылку на исполнителя #}
+        <a href="{% url 'performer' album.performer.slug %}">{{ album.performer }}</a>
     </p>
     <br>
     {% endfor %}
