@@ -11,7 +11,10 @@
 <div>
     <h3><a href="{% url 'all_album' %}">АЛЬБОМЫ</a></h3>
     {% for album in list_of_albums %}
-    <a href="{% url 'album' album.slug %}">{{ album }}</a><br>
+    <p>
+        <a href="{% url 'album' album.slug %}">{{ album.title }}</a><br>
+        исполнитель: <a href="{% url 'performer' album.performer.slug %}">{{ album.performer }}</a>
+    </p>
     {% endfor %}
 </div>
 <div>
