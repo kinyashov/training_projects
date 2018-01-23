@@ -3,9 +3,10 @@
 {% block content %}
 
 <h2>ЖАНРЫ</h2>
-
+<p>сортировать по: <a href="{% url 'all_genre' sort='genre' %}">алфавиту</a>, <a href="{% url 'all_genre' sort='track' %}">количеству песен</a></p>
 {% for genre in genres %}
-<a href="{% url 'genre' genre.slug %}">{{ genre }}</a><br>
+<a href="{% url 'genre' genre.slug %}">{{ genre }}</a>
+{{ genre.tracks.count }}<br>
 {% endfor %}
 
 {% endblock %}
