@@ -49,9 +49,9 @@ class Genre(models.Model):
 
 class Track(models.Model):
     title = models.CharField(max_length=255)
-    performer = models.ForeignKey('Performer', on_delete=models.DO_NOTHING)
+    performer = models.ForeignKey('Performer', related_name='tracks_by_performer', on_delete=models.DO_NOTHING)
     partner = models.ManyToManyField('Performer', related_name='track_partners', blank=True)
-    genre = models.ManyToManyField('Genre', default=None, blank=True)
+    genre = models.ManyToManyField('Genre', related_name='tracks', default=None, blank=True)
     album = models.ForeignKey('Album', blank=True, null=True, on_delete=models.DO_NOTHING)
     added = models.DateTimeField(auto_now_add=True)
 
