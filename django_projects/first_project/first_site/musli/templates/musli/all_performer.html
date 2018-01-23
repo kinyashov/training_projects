@@ -3,9 +3,10 @@
 {% block content %}
 
 <h2>ИСПОЛНИТЕЛИ</h2>
+<p>сортировать по: <a href="{% url 'all_performer' sort='name' %}">алфавиту</a>, <a href="{% url 'all_performer' sort='track' %}">количеству песен</a></p>
 
-{% for performer in list_of_performers %}
-<a href="{% url 'performer' performer.slug %}">{{ performer }}</a><br>
+{% for performer in performers %}
+<a href="{% url 'performer' performer.slug %}">{{ performer }}</a> {{ performer.tracks_by_performer.count }}<br>
 {% endfor %}
 
 {% endblock %}
