@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from django.db.models import Count
 
 from .models import Track, Performer, Album, Genre
 
@@ -13,9 +14,12 @@ def index(request):
     return render(request, 'musli/index.html', context=context)
 
 
-def all_performer(request):
-    list_of_performers = Performer.objects.all()
-    context = {'list_of_performers': list_of_performers}
+def all_performer(request, sort='name'):
+    if sort == 'track':
+        performers = Performer.objects.all().annotate(num_track=Count('tracks_by_performer')).order_by('-num_track')
+    else:
+        performers = Performer.objects.all().order_by('name')
+    context = {'performers': performers}
     return render(request, 'musli/all_performer.html', context=context)
 
 
@@ -31,8 +35,11 @@ def performer(request, slug_performer):
     return render(request, 'musli/performer.html', context=context)
 
 
-def all_genre(request):
-    genres = Genre.objects.all()
+def all_genre(request, sort='genre'):
+    if sort == 'track':
+        genres = Genre.objects.all().annotate(num_track=Count('tracks')).order_by('-num_track')
+    else:
+        genres = Genre.objects.all().order_by('genre')
     context = {'genres': genres}
     return render(request, 'musli/all_genre.html', context=context)
 
@@ -49,8 +56,8 @@ def genre(request, slug_genre):
     return render(request, 'musli/genre.html', context=context)
 
 
-def all_album(request):
-    list_of_albums = Album.objects.all()
+def all_album(request, sort='title'):
+    list_of_albums = Album.objects.all().order_by(sort)
     context = {'list_of_albums': list_of_albums}
     return render(request, 'musli/all_album.html', context=context)
 
