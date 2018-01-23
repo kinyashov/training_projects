@@ -2,16 +2,15 @@
 
 {% block content %}
 <h2>Альбомы</h2>
+сортировать по: <a href="{% url 'all_album' sort='title' %}">названию альбома</a>, <a href="{% url 'all_album' sort='performer' %}">по исполнителю</a>
+{% for album in list_of_albums %}
 <p>
-    {% for album in list_of_albums %}
-    <p>
-        <a href="{% url 'album' album.slug %}">{{ album.title }}</a>
-    </p>
-    <p>
-        <a href="{% url 'performer' album.performer.slug %}">{{ album.performer }}</a>
-    </p>
-    <br>
-    {% endfor %}
+    <a href="{% url 'album' album.slug %}">{{ album.title }}</a>
 </p>
+<p>
+    <a href="{% url 'performer' album.performer.slug %}">{{ album.performer }}</a>
+</p>
+<br>
+{% endfor %}
 
 {% endblock %}
